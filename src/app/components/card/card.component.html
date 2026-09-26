@@ -1,0 +1,31 @@
+<!-- Reusable icon + title + description card, with an optional CTA button.
+     When `image` is set, the card shows only that image, no text. -->
+<div class="dulane-card" [class.image-only]="image()">
+  @if (image()) {
+    <img
+      [src]="image()"
+      [alt]="imageAlt()"
+      class="card-image"
+      loading="lazy"
+    />
+  } @else {
+    <div class="card-content">
+      @if (icon()) {
+        <div class="icon-wrapper">
+          <span class="material-icons card-icon">{{ icon() }}</span>
+        </div>
+      }
+      <h3 class="card-title">{{ title() }}</h3>
+      <p class="card-description">{{ description() }}</p>
+    </div>
+
+    <!-- Optional action button -->
+    @if (showButton()) {
+      <div class="card-action">
+        <app-dulane-button [variant]="buttonVariant()" (click)="onButtonClick()">
+          {{ buttonText() }} <i class="fa-solid fa-arrow-right"></i>
+        </app-dulane-button>
+      </div>
+    }
+  }
+</div>

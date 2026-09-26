@@ -1,0 +1,68 @@
+<section class="more-products-section" id="outros-servicos">
+  <div class="section-container text-center">
+    <!-- Header -->
+    <span class="section-badge">Outros Serviços</span>
+    <h2 class="section-title">
+      Tecnologia, consultoria e assessoria empresarial <br />
+      <span class="highlight">ao seu alcance</span>
+    </h2>
+    <p class="section-subtitle">
+      Oferecemos diversos produtos e serviços. Nosso compromisso com você é
+      oferecer o que há de melhor em gestão com o uso de tecnologia,
+      tornando seu dia a dia mais fácil e gerando mais resultados.
+    </p>
+
+    <!-- 6-card grid -->
+    <div class="products-grid" #productsGrid>
+      <app-card
+        icon="refresh"
+        title="Gestão Fiscal & Tributária"
+        description="Sistemas e processos sempre atualizados para manter o seu negócio seguro e regular."
+      >
+      </app-card>
+
+      <app-card
+        icon="account_balance"
+        title="Inteligência Financeira"
+        description="Planejamento e análise econômica para maximizar a rentabilidade da sua empresa."
+      >
+      </app-card>
+
+      <app-card
+        icon="attach_money"
+        title="Assessoria Financeira"
+        description="Acompanhamento próximo para o crescimento financeiro saudável."
+      >
+      </app-card>
+
+      <app-card
+        icon="memory"
+        title="Soluções Tecnológicas"
+        description="Ferramentas modernas que elevam o desempenho da sua empresa."
+      >
+      </app-card>
+
+      <app-card
+        icon="edit"
+        title="Soluções Customizáveis"
+        description="Tecnologia sob medida, adequada às necessidades do seu negócio."
+      >
+      </app-card>
+
+      <app-card
+        icon="location_city"
+        title="Gestão Pública"
+        description="Tecnologia e dados a favor de uma administração mais ágil."
+      >
+      </app-card>
+    </div>
+
+    <!-- Main quote request button -->
+    <div class="more-products-actions">
+      <app-dulane-button variant="primary" (click)="abrirOrcamento()">
+        Entre em Contato
+        <i class="fa-solid fa-arrow-right"></i>
+      </app-dulane-button>
+    </div>
+  </div>
+</section>

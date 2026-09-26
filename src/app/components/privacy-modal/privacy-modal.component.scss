@@ -1,0 +1,144 @@
+.privacy-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 10000; // above the floating WhatsApp button (z-index: 9999)
+  animation: fade-in 0.2s ease;
+}
+
+.privacy-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden; // clips the content/scrollbar to the rounded shape
+  animation: pop-in 0.25s ease;
+}
+
+.privacy-scroll {
+  max-height: 90vh;
+  overflow-y: auto;
+
+  /* Thin, gray scrollbar instead of the browser default */
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-muted) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--text-muted);
+    border-radius: 2px;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+.privacy-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 28px 32px 20px 32px;
+  background: var(--white);
+  border-bottom: 1px solid #f1f5f9;
+  border-radius: 10px 10px 0 0;
+  z-index: 1;
+
+  @media (max-width: 576px) {
+    padding: 24px 20px 16px 20px;
+  }
+}
+
+.privacy-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--secondary-dulane);
+  margin-bottom: 4px;
+}
+
+.privacy-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.privacy-close {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-light);
+  color: var(--secondary-dulane);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #e2e8f0;
+  }
+}
+
+.privacy-body {
+  padding: 8px 32px 0 32px;
+
+  @media (max-width: 576px) {
+    padding: 8px 20px 0 20px;
+  }
+}
+
+.privacy-footer {
+  padding: 16px 32px 28px 32px;
+  text-align: center;
+
+  @media (max-width: 576px) {
+    padding: 16px 20px 24px 20px;
+  }
+
+  // Dark blue hover (--secondary-dulane), instead of the outline button's
+  // default orange.
+  ::ng-deep .btn.outline:hover {
+    border-color: var(--secondary-dulane);
+    color: var(--secondary-dulane);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

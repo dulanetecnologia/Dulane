@@ -1,0 +1,62 @@
+<section class="hero-section" id="inicio">
+  <div class="hero-container">
+    <!-- Left side: Text and CTAs -->
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Soluções para o <br />
+        <span class="highlight">Setor Público e Privado</span>
+      </h1>
+      <p class="hero-subtitle">
+        Acreditamos que a tecnologia só tem valor real quando gera
+        proximidade. Por isso, criamos um ecossistema moderno, intuitivo e
+        integrado que coloca o controle e a estratégia nas suas mãos. Cuidar
+        de cada detalhe da sua gestão com sensibilidade e inovação é o que
+        nos move, lado a lado com você, em qualquer desafio.
+      </p>
+
+      <div class="hero-actions">
+        <app-dulane-button variant="primary" (click)="abrirOrcamento()">
+          Entre em Contato <i class="fa-solid fa-arrow-right"></i>
+        </app-dulane-button>
+      </div>
+    </div>
+
+    <!-- Right side: Main image -->
+    <div class="hero-image-wrapper">
+      <img
+        src="images/hero-dulane.png"
+        alt="Dulane Gestão e Tecnologia"
+        class="hero-img"
+      />
+    </div>
+  </div>
+
+  <!-- Floating card of differentiators, built from the reusable components -->
+  <div class="hero-features-container">
+    <div class="hero-features-card" #featuresCard>
+      <!-- Card 1: the unified ecosystem of resources/partners -->
+      <app-card
+        icon="hub"
+        title="Ecossistema Único"
+        description="Todos os recursos exclusivos e serviços de parceiros estratégicos reunidos em um só lugar."
+      >
+      </app-card>
+
+      <!-- Card 2: multidisciplinary approach -->
+      <app-card
+        icon="account_tree"
+        title="Abordagem Multidisciplinar"
+        description="A segurança econômica alinhada às melhores práticas de gestão e às ferramentas tecnológicas mais avançadas."
+      >
+      </app-card>
+
+      <!-- Card 3: tailored development -->
+      <app-card
+        icon="adjust"
+        title="Desenvolvimento Direcionado"
+        description="Soluções desenhadas sob medida para atender exatamente aos desafios do seu cenário de atuação."
+      >
+      </app-card>
+    </div>
+  </div>
+</section>

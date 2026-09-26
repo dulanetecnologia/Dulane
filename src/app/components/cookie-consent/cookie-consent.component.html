@@ -1,0 +1,14 @@
+@if (visible()) {
+  <div class="cookie-consent" role="dialog" aria-label="Aviso de cookies">
+    <p class="cookie-consent-text">
+      Usamos cookies para melhorar sua experiência de navegação. Ao continuar
+      no site, você concorda com a nossa
+      <a href="#" (click)="abrirPrivacidade($event)"
+        >Política de Privacidade</a
+      >.
+    </p>
+    <button type="button" class="cookie-consent-accept" (click)="aceitar()">
+      Aceitar
+    </button>
+  </div>
+}

@@ -1,0 +1,86 @@
+<footer class="footer" [ngClass]="'footer--' + theme">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Brand name and tagline -->
+      <div class="footer-brand">
+        <img
+          [src]="logo.src"
+          [alt]="logo.alt"
+          class="footer-logo"
+          [class.footer-logo--invert]="logo.invert"
+          loading="lazy"
+        />
+        <p class="footer-tagline" *ngIf="tagline">{{ tagline }}</p>
+
+        <div class="footer-trust" *ngIf="trustItems || badges">
+          <ul class="footer-trust-list" *ngIf="trustItems">
+            <li *ngFor="let item of trustItems">
+              {{ item.text }}
+              <span *ngIf="item.note" class="footer-trust-note">{{
+                item.note
+              }}</span>
+            </li>
+          </ul>
+
+          <div class="footer-badges" *ngIf="badges">
+            <img
+              *ngFor="let item of badges"
+              [src]="item.src"
+              [alt]="item.alt"
+              class="footer-badge"
+              [class.footer-badge--sm]="item.small"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact channels -->
+      <div class="footer-col">
+        <p class="footer-eyebrow">Fale com a gente</p>
+        <div class="footer-list">
+          <a
+            class="footer-item"
+            [href]="whatsappUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>{{ whatsappDisplay }}</span>
+          </a>
+
+          <a class="footer-item" [href]="'mailto:' + email">
+            <i class="fa-solid fa-envelope"></i>
+            <span>{{ email }}</span>
+          </a>
+
+          <a
+            class="footer-item"
+            href="https://instagram.com/dulane_"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fa-brands fa-instagram"></i>
+            <span>&#64;dulane_</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Legal links (open the Terms/Privacy modals) -->
+      <div class="footer-col">
+        <p class="footer-eyebrow">Institucional</p>
+        <div class="footer-links">
+          <a href="#" (click)="abrirTermos($event)">Termos de Uso</a>
+          <a href="#" (click)="abrirPrivacidade($event)"
+            >Política de Privacidade</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      © {{ currentYear }} Todos os direitos reservados à Dulane Gestão e Tecnologia.
+    </div>
+  </div>
+</footer>

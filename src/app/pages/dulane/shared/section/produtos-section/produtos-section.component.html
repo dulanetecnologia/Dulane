@@ -1,0 +1,118 @@
+<section class="produtos-section" id="produto">
+  <div class="produtos-container">
+    <!-- Centered header -->
+    <div class="produtos-header">
+      <span class="section-badge">Soluções em Destaque</span>
+      <h2 class="section-title">
+        Soluções desenvolvidas para <br />
+        <span class="highlight">impulsionar o seu negócio</span>
+      </h2>
+      <p class="section-subtitle">
+        Tecnologia e gestão integradas para otimizar processos e acelerar
+        resultados.
+      </p>
+    </div>
+
+    <!-- Carousel tabs -->
+    <div class="carousel-tabs-wrapper">
+      <div class="carousel-tabs">
+        @for (slide of visibleSlides; track slide.id; let i = $index) {
+          <button
+            #tabBtn
+            class="tab-btn"
+            [class.active]="activeSlideIndex() === i"
+            (click)="setActiveSlide(i)"
+          >
+            <span class="material-icons tab-icon">{{ slide.icon }}</span>
+            <span>{{ slide.button }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Showcase carousel with touch/swipe support -->
+    <div class="carousel-showcase">
+      @for (slide of visibleSlides; track slide.id; let i = $index) {
+        @if (activeSlideIndex() === i) {
+          <div
+            class="showcase-card animated-fade-in"
+            (touchstart)="onTouchStart($event)"
+            (touchend)="onTouchEnd($event)"
+          >
+            <!-- Right side of the demo screen (mockup/image) -->
+            <div class="showcase-media">
+              <div class="mockup-frame">
+                <div class="frame-bar">
+                  <div class="dots-container">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                  </div>
+
+                  <img
+                    [src]="slide.logo"
+                    [alt]="slide.button + ' Logo'"
+                    class="frame-logo"
+                    loading="lazy"
+                  />
+                </div>
+                <img
+                  [src]="slide.image"
+                  [alt]="slide.title"
+                  class="showcase-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            <!-- Feature info -->
+            <div class="showcase-info">
+              <span class="feature-badge">
+                <span class="material-icons">star</span> {{ slide.badge }}
+              </span>
+              <h3>{{ slide.title }}</h3>
+              <p>{{ slide.description }}</p>
+
+              @if (slide.clickable) {
+                <div class="showcase-actions">
+                  <!-- Wrapper that ensures the click is captured and the redirect happens -->
+                  <div
+                    class="showcase-cta-wrapper"
+                    (click)="openSystemPage(slide)"
+                    style="cursor: pointer"
+                  >
+                    <app-dulane-button variant="primary">
+                      Saiba mais sobre o {{ slide.button }}
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </app-dulane-button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      }
+
+      <!-- Prev/next navigation arrows -->
+      <button class="nav-btn prev" (click)="prevSlide()" aria-label="Anterior">
+        <span class="material-icons">chevron_left</span>
+      </button>
+      <button class="nav-btn next" (click)="nextSlide()" aria-label="Próximo">
+        <span class="material-icons">chevron_right</span>
+      </button>
+
+      <!-- Dot indicators -->
+      <div class="carousel-dots">
+        @for (slide of visibleSlides; track slide.id; let i = $index) {
+          <span
+            class="dot-indicator"
+            [class.active]="activeSlideIndex() === i"
+            (click)="setActiveSlide(i)"
+          >
+          </span>
+        }
+      </div>
+    </div>
+  </div>
+</section>

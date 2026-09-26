@@ -1,0 +1,293 @@
+// --- HEADER CONFIGURATION ---
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: var(--secondary-dulane);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: relative;
+  }
+}
+
+/* LOGO (WHITE IMAGE) */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  z-index: 1010; // Stays above the mobile menu when it opens
+
+  .logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+  }
+}
+
+/* NAV MENU DESKTOP */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+
+  @media (max-width: 1024px) {
+    display: none; // Hides the classic menu on mobile/tablet
+  }
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--primary-dulane);
+
+    .arrow-icon {
+      color: var(--primary-dulane);
+    }
+  }
+
+  &.active {
+    color: var(--primary-dulane);
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--primary-dulane);
+      border-radius: 10px 10px 0 0;
+    }
+  }
+}
+
+/* DROPDOWN (USEFUL LINKS) DESKTOP */
+.dropdown-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .dropdown-toggle {
+    height: 100%;
+
+    .arrow-icon {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.6);
+      transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+    }
+  }
+
+  &.open {
+    .dropdown-toggle {
+      color: var(--primary-dulane);
+
+      .arrow-icon {
+        transform: rotate(180deg);
+        color: var(--primary-dulane);
+      }
+    }
+
+    .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  // Right-aligned to the toggle instead of centered: "LINKS ÚTEIS" is the
+  // last item in the nav, so a centered menu spilled past the right edge
+  // of the viewport on narrower desktop widths and got clipped.
+  right: 0;
+  left: auto;
+  transform: translateY(4px);
+  max-width: calc(100vw - 32px);
+  background-color: var(--white);
+  min-width: 220px;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-md);
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+  z-index: 1010;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 20px;
+  color: var(--secondary-dulane);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--bg-light);
+    color: var(--primary-dulane);
+    padding-left: 24px;
+  }
+}
+
+/* RESPONSIVE HAMBURGER BUTTON */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1010; // Ensures it stays clickable above the expanded menu
+
+  @media (max-width: 1024px) {
+    display: flex; // Only shown on smaller screens
+  }
+
+  .hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: var(--white);
+    border-radius: 2px;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+  }
+}
+
+/* TRANSFORMS THE HAMBURGER INTO AN "X" */
+.header.menu-open {
+  .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
+/* RESPONSIVE MOBILE MENU */
+.mobile-menu {
+  display: none;
+  background-color: var(--secondary-dulane);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  position: fixed; // Fills the screen correctly while scrolling
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px); // Takes up the remaining viewport
+  box-shadow: var(--shadow-md);
+  z-index: 999;
+  overflow-y: auto; // Allows inner scroll if there are many links
+}
+
+// Shows the mobile block on click
+.header.menu-open .mobile-menu {
+  @media (max-width: 1024px) {
+    display: block;
+  }
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
+  gap: 20px;
+
+  .mobile-link {
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 8px 0;
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-dulane);
+    }
+
+    .arrow-icon {
+      font-size: 0.8rem;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .mobile-dropdown-menu {
+    display: none;
+    padding-left: 16px;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  .mobile-dropdown.open {
+    .mobile-dropdown-menu {
+      display: flex;
+    }
+    .mobile-link {
+      color: var(--primary-dulane);
+    }
+    .arrow-icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  .mobile-dropdown-item {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 6px 0;
+    display: block;
+
+    &:hover {
+      color: var(--primary-dulane);
+    }
+  }
+}

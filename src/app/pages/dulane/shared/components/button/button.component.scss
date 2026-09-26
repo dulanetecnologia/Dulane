@@ -1,0 +1,43 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 50px; // Fully rounded pill-shaped buttons
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+
+  &.primary {
+    background-color: var(--primary-dulane);
+    color: var(--white);
+
+    &:hover {
+      background-color: var(--primary-hover-dulane);
+      transform: translateY(-2px);
+    }
+  }
+
+  &.secondary {
+    background-color: var(--secondary-dulane);
+    color: var(--white);
+
+    &:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  }
+
+  &.outline {
+    background-color: transparent;
+    border-color: #e2e8f0;
+    color: var(--secondary-dulane);
+
+    &:hover {
+      border-color: var(--primary-dulane);
+      color: var(--primary-dulane);
+    }
+  }
+}

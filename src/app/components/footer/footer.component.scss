@@ -1,0 +1,238 @@
+// Footer container and background/accent color
+.footer {
+  padding: 48px 24px 22px;
+  font-size: 0.9rem;
+  border-top: 3px solid var(--accent);
+
+  &.footer--dulane {
+    background-color: var(--secondary-dulane);
+    --accent: var(--primary-dulane);
+  }
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Three-column layout: brand, contact, legal links
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 32px;
+}
+
+.footer-logo {
+  display: block;
+  height: 34px;
+  width: auto;
+  margin-bottom: 14px;
+
+  // Set via FOOTER_LOGOS when a brand's only logo asset has dark text, to
+  // invert it to white so it reads on the footer's dark background.
+  &--invert {
+    filter: brightness(0) invert(1);
+  }
+}
+
+.footer-tagline {
+  font-size: 0.85rem;
+  color: var(--white);
+  line-height: 1.55;
+  max-width: 34ch;
+  white-space: pre-line;
+}
+
+.footer-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.footer-trust-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 18px;
+  max-width: 34ch;
+
+  li {
+    font-size: 0.85rem;
+    color: var(--white);
+    line-height: 1.55;
+
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.footer-trust-note {
+  display: block;
+  font-style: italic;
+  font-size: 0.72rem;
+}
+
+.footer-badges {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+}
+
+.footer-badge {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+
+  &--sm {
+    height: 46px;
+  }
+}
+
+.footer-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 14px;
+
+  &::after {
+    content: " —";
+  }
+}
+
+.footer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  i {
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+}
+
+a.footer-item:hover {
+  color: var(--white);
+}
+
+// App store badges
+.footer-stores {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-store-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 172px;
+  height: 52px;
+  box-sizing: border-box;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--white);
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+
+  i {
+    font-size: 1.4rem;
+    color: var(--accent);
+  }
+
+  &:hover {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.footer-store-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  font-weight: 600;
+  font-size: 0.85rem;
+
+  small {
+    font-weight: 400;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    width: fit-content;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}
+
+// Copyright line
+.footer-bottom {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+// Two-column layout on tablet, brand spans the full width
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+// Single-column layout on mobile
+@media (max-width: 600px) {
+  .footer {
+    padding: 36px 18px 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-tagline,
+  .footer-trust-list {
+    max-width: none;
+  }
+
+  .footer-store-badge {
+    width: 100%;
+    max-width: 220px;
+  }
+}

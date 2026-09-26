@@ -1,0 +1,252 @@
+<!-- Quote request modal: multi-section form + success/error toast -->
+@if (isOpen()) {
+<div class="orcamento-overlay" (click)="fechar()">
+  <div class="orcamento-dialog"
+    (click)="$event.stopPropagation()">
+    <div class="orcamento-scroll">
+      <header class="orcamento-header">
+        <div class="orcamento-header-icon">
+          <span class="material-icons">request_quote</span>
+        </div>
+        <div class="orcamento-header-text">
+          <h3 class="orcamento-title">Solicitar Orçamento</h3>
+          <p class="orcamento-subtitle">
+            Preencha os dados abaixo e entraremos em contato o quanto antes.
+          </p>
+          <p class="orcamento-campos-obrigatorios">* Campos obrigatórios</p>
+        </div>
+        <button type="button" class="orcamento-close" (click)="fechar()" aria-label="Fechar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </header>
+
+      <form #orcamentoForm class="orcamento-form" novalidate (ngSubmit)="enviar()">
+        <!-- SECTION: IDENTIFICATION -->
+        <section class="form-section">
+          <h4 class="form-section-title">
+            <i class="material-icons">badge</i>
+            Identificação
+          </h4>
+
+          <div class="tipo-pessoa-toggle">
+            <button type="button" class="tipo-pessoa-btn" [class.active]="tipoPessoa() === 'fisica'"
+              (click)="selecionarTipoPessoa('fisica')">
+              <i class="material-icons">person</i>
+              Pessoa Física
+            </button>
+            <button type="button" class="tipo-pessoa-btn" [class.active]="tipoPessoa() === 'juridica'"
+              (click)="selecionarTipoPessoa('juridica')">
+              <i class="material-icons">apartment</i>
+              Pessoa Jurídica
+            </button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label [for]="campoId('nome')">
+                {{ tipoPessoa() === 'fisica' ? 'Nome Completo' : 'Razão Social' }} *
+              </label>
+              <div class="input-with-icon">
+                <i class="material-icons">
+                  {{ tipoPessoa() === 'fisica' ? 'person_outline' : 'storefront' }}
+                </i>
+                <input [id]="campoId('nome')" [name]="campoId('nome')" type="text" required [(ngModel)]="nome" [ngModelOptions]="{ standalone: true }"
+                  [class.invalid]="mostrarErro('nome', !nomeValido)" (blur)="tocar('nome')" />
+              </div>
+              @if (mostrarErro('nome', !nomeValido)) {
+              <span class="field-error">Informe o nome.</span>
+              }
+            </div>
+
+            <div class="form-field">
+              <label [for]="campoId('documento')">
+                {{ tipoPessoa() === 'fisica' ? 'CPF' : 'CNPJ' }} *
+              </label>
+              <div class="input-with-icon">
+                <i class="material-icons">fingerprint</i>
+                <input [id]="campoId('documento')" [name]="campoId('documento')" type="text" inputmode="numeric" required
+                  [placeholder]="tipoPessoa() === 'fisica' ? '000.000.000-00' : '00.000.000/0000-00'"
+                  [maxlength]="tipoPessoa() === 'fisica' ? 14 : 18" [(ngModel)]="documento"
+                  [ngModelOptions]="{ standalone: true }" [class.invalid]="mostrarErro('documento', !documentoValido)"
+                  (input)="onDocumentoInput($event)" (blur)="tocar('documento')" />
+              </div>
+              @if (mostrarErro('documento', !documentoValido)) {
+              <span class="field-error">
+                Informe um {{ tipoPessoa() === 'fisica' ? 'CPF' : 'CNPJ' }} válido.
+              </span>
+              }
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label [for]="campoId('endereco')">Endereço *</label>
+            <div class="input-with-icon">
+              <i class="material-icons">location_on</i>
+              <input [id]="campoId('endereco')" [name]="campoId('endereco')" type="text" required placeholder="Rua, número, bairro, cidade"
+                [(ngModel)]="endereco" [ngModelOptions]="{ standalone: true }"
+                [class.invalid]="mostrarErro('endereco', !enderecoValido)" (blur)="tocar('endereco')" />
+            </div>
+            @if (mostrarErro('endereco', !enderecoValido)) {
+            <span class="field-error">Informe o endereço.</span>
+            }
+          </div>
+        </section>
+
+        <!-- SECTION: CONTACT -->
+        <section class="form-section">
+          <h4 class="form-section-title">
+            <i class="material-icons">contact_mail</i>
+            Contato
+          </h4>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label [for]="campoId('email')">E-mail *</label>
+              <div class="input-with-icon">
+                <i class="material-icons">mail_outline</i>
+                <input [id]="campoId('email')" [name]="campoId('email')" type="email" required [(ngModel)]="email" [ngModelOptions]="{ standalone: true }"
+                  [class.invalid]="mostrarErro('email', !emailValido)" (blur)="tocar('email')" />
+              </div>
+              @if (mostrarErro('email', !emailValido)) {
+              <span class="field-error">Informe um e-mail válido.</span>
+              }
+            </div>
+
+            <div class="form-field">
+              <label [for]="campoId('telefone')">Telefone *</label>
+              <div class="input-with-icon">
+                <i class="material-icons">call</i>
+                <input [id]="campoId('telefone')" [name]="campoId('telefone')" type="tel" inputmode="numeric" required placeholder="(00) 00000-0000"
+                  maxlength="15" [(ngModel)]="telefone" [ngModelOptions]="{ standalone: true }"
+                  [class.invalid]="mostrarErro('telefone', !telefoneValido)" (input)="onTelefoneInput($event)"
+                  (blur)="tocar('telefone')" />
+              </div>
+              @if (mostrarErro('telefone', !telefoneValido)) {
+              <span class="field-error">Informe um telefone válido.</span>
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: SCHEDULING -->
+        <section class="form-section">
+          <h4 class="form-section-title">
+            <i class="material-icons">event_available</i>
+            Melhor data para conversarmos
+          </h4>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label [for]="campoId('data')">Data preferida *</label>
+              <div class="input-with-icon">
+                <i class="material-icons">calendar_today</i>
+                <input [id]="campoId('data')" type="date" required [min]="dataMinima" [(ngModel)]="dataPreferida"
+                  [ngModelOptions]="{ standalone: true }" [class.invalid]="mostrarErro('data', !dataValida)" (blur)="tocar('data')" (change)="tocar('data')" />
+              </div>
+              @if (mostrarErro('data', !dataValida)) {
+              <span class="field-error">Escolha uma data de hoje em diante, de segunda a sábado.</span>
+              }
+            </div>
+
+            <div class="form-field">
+              <label [for]="campoId('hora')">Horário *</label>
+              <div class="input-with-icon">
+                <i class="material-icons">schedule</i>
+                <input [id]="campoId('hora')" [name]="campoId('hora_preferida')" type="time" required
+                  [min]="horarioMin" [max]="horarioMax" [(ngModel)]="horaPreferida"
+                  [ngModelOptions]="{ standalone: true }" [class.invalid]="mostrarErro('hora', !horaValida)" (blur)="tocar('hora')" (change)="tocar('hora')" />
+              </div>
+              @if (mostrarErro('hora', !horaValida)) {
+              <span class="field-error">Escolha um horário entre {{ horarioMin }} e {{ horarioMax }}.</span>
+              } @else {
+              <span class="field-hint">Seg. a sex. das 8h às 18h, sáb. das 8h às 12h.</span>
+              }
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION: DETAILS -->
+        <section class="form-section">
+          <h4 class="form-section-title">
+            <i class="material-icons">description</i>
+            Detalhes do pedido
+          </h4>
+
+          <div class="form-field">
+            <label [for]="campoId('descricao')">Conte um pouco sobre o seu caso *</label>
+            <textarea [id]="campoId('descricao')" [name]="campoId('descricao')" rows="4" maxlength="800" required
+              placeholder="Descreva o que você precisa..." [(ngModel)]="descricao"
+              [ngModelOptions]="{ standalone: true }" [class.invalid]="mostrarErro('descricao', !descricaoValida)"
+              (blur)="tocar('descricao')"></textarea>
+            @if (mostrarErro('descricao', !descricaoValida)) {
+            <span class="field-error">Conte um pouco sobre o que você precisa.</span>
+            }
+          </div>
+        </section>
+
+        <!-- SECTION: ATTACHMENTS -->
+        <section class="form-section">
+          <h4 class="form-section-title">
+            <i class="material-icons">attach_file</i>
+            Anexos (opcional)
+          </h4>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label [for]="campoId('imagem')">Imagem</label>
+              <div class="file-field">
+                <i class="material-icons">image</i>
+                <input [id]="campoId('imagem')" type="file" accept="image/*" (change)="onArquivoSelecionado($event, 'imagem')" />
+              </div>
+              @if (imagemErro()) {
+              <span class="field-error">{{ imagemErro() }}</span>
+              } @else if (imagemArquivo()) {
+              <span class="field-hint">{{ imagemArquivo()!.name }}</span>
+              }
+            </div>
+
+            <div class="form-field">
+              <label [for]="campoId('documentoAnexo')">Documento</label>
+              <div class="file-field">
+                <i class="material-icons">description</i>
+                <input [id]="campoId('documentoAnexo')" type="file" accept=".pdf,.doc,.docx,image/*"
+                  (change)="onArquivoSelecionado($event, 'documento')" />
+              </div>
+              @if (documentoErro()) {
+              <span class="field-error">{{ documentoErro() }}</span>
+              } @else if (documentoArquivo()) {
+              <span class="field-hint">{{ documentoArquivo()!.name }}</span>
+              }
+            </div>
+          </div>
+        </section>
+
+        <app-dulane-button variant="primary" type="submit" class="orcamento-submit-btn">
+          @if (status() === 'enviando') {
+          <span class="orcamento-spinner"></span>
+          Enviando...
+          } @else {
+          Enviar Solicitação
+          <i class="fa-solid fa-arrow-right"></i>
+          }
+        </app-dulane-button>
+      </form>
+    </div>
+  </div>
+</div>
+}
+
+@if (toast(); as t) {
+<div class="orcamento-toast" [class.toast-sucesso]="t.tipo === 'sucesso'" [class.toast-erro]="t.tipo === 'erro'">
+  <span class="toast-icon">
+    <i class="material-icons">
+      {{ t.tipo === 'sucesso' ? 'check_circle' : 'error' }}
+    </i>
+  </span>
+  <span class="toast-mensagem">{{ t.mensagem }}</span>
+  <button type="button" class="toast-close" (click)="fecharToast()" aria-label="Fechar aviso">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+  <span class="toast-progress"></span>
+</div>
+}

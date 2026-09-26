@@ -1,0 +1,6 @@
+{
+  "outputDirectory": "dist/dulane",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

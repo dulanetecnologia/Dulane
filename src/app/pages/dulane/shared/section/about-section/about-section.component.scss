@@ -1,0 +1,286 @@
+.about-section {
+  width: 100%;
+  background: #fffefe;
+  padding: 48px 0;
+  position: relative;
+  overflow: hidden;
+  scroll-margin-top: 80px;
+
+  @media (max-width: 968px) {
+    padding: 32px 0;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+.about-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 64px;
+
+  // Intermediate adjustment for medium screens (large tablets / notebooks)
+  @media (max-width: 1024px) {
+    gap: 40px;
+  }
+
+  // Main breakpoint for stacking on smaller screens
+  @media (max-width: 968px) {
+    flex-direction: column;
+    gap: 48px;
+  }
+}
+
+.about-content {
+  flex: 1;
+  max-width: 580px;
+  width: 100%;
+
+  @media (max-width: 968px) {
+    max-width: 100%;
+  }
+
+  .about-description {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    text-align: justify;
+
+    strong {
+      color: var(--secondary-dulane);
+    }
+
+    @media (max-width: 576px) {
+      font-size: 1rem;
+      margin-bottom: 24px;
+    }
+  }
+}
+
+/* BENEFIT CARDS (replaces the plain checklist) — a single straight row
+   below the text/image, spanning the full section width. */
+.about-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-md, 12px);
+  padding: 16px;
+  box-shadow: 0 10px 22px -10px rgba(0, 0, 0, 0.1);
+
+  // Entrance state: cards rise into place, staggered, the first time the
+  // grid scrolls into view (`.in-view` is toggled from component.ts).
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+
+  &:hover {
+    border-color: rgba(36, 79, 235, 0.35);
+    box-shadow:
+      0 18px 28px -12px rgba(36, 79, 235, 0.25),
+      var(--shadow-md);
+  }
+
+  .feature-icon {
+    color: var(--primary-dulane);
+    font-size: 1.4rem;
+    margin-top: 1px;
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  &:hover .feature-icon {
+    transform: rotate(-8deg) scale(1.15);
+  }
+
+  .feature-text {
+    strong {
+      display: block;
+      color: var(--secondary-dulane);
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  }
+}
+
+.about-features-grid.in-view .feature-card {
+  opacity: 1;
+  transform: translateY(0);
+  animation: feature-card-float 6s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+    infinite;
+
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      transition-delay: #{($i - 1) * 0.1}s;
+      animation-delay: #{0.6 + ($i - 1) * 0.3}s;
+    }
+  }
+
+  // Pause the ambient float on hover so it doesn't fight with the hover lift.
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes feature-card-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+
+/* IMAGE AND BADGE COLUMN */
+.about-image-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 20px; // Reserved space so the badge doesn't get cropped at the bottom
+
+  // Soft colored panel behind the photo, for depth.
+  .about-bg-shape {
+    position: absolute;
+    width: 82%;
+    height: 82%;
+    top: 14px;
+    right: 4%;
+    background: var(--primary-dulane);
+    opacity: 0.1;
+    border-radius: var(--radius-lg, 24px);
+    transform: rotate(-4deg);
+    z-index: 0;
+  }
+
+  .about-img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* FLOATING METRIC BADGE */
+.metric-badge {
+  position: absolute;
+  bottom: 0; // Adjusted alongside the image's padding-bottom to avoid overflow
+  left: 20px;
+  background-color: var(--secondary-dulane);
+  color: var(--white);
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 3;
+  animation: badge-float 4s ease-in-out infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  @media (max-width: 576px) {
+    left: 50%;
+    animation: none; // Avoids fighting with the translateX(-50%) centering below
+    width: calc(100% - 32px); // Keeps side margins without overflowing the screen
+    max-width: 360px;
+    padding: 12px 18px;
+    gap: 12px;
+    transform: translateX(-50%);
+  }
+
+  .badge-icon {
+    font-size: 2.5rem;
+    color: var(--primary-dulane);
+    flex-shrink: 0;
+
+    @media (max-width: 576px) {
+      font-size: 2rem;
+    }
+  }
+
+  .metric-text {
+    display: flex;
+    flex-direction: column;
+
+    .number {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+
+      @media (max-width: 576px) {
+        font-size: 1.1rem;
+      }
+    }
+
+    .label {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-weight: 500;
+
+      @media (max-width: 576px) {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+@keyframes badge-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+

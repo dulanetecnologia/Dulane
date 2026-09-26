@@ -1,0 +1,228 @@
+.hero-section {
+  width: 100%;
+  background: #fffefe;
+  padding: 56px 24px 48px;
+  position: relative;
+  box-sizing: border-box;
+  scroll-margin-top: 80px;
+
+  @media (max-width: 768px) {
+    padding: 40px 16px 32px;
+  }
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+
+  @media (max-width: 968px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 32px;
+  }
+}
+
+/* LEFT CONTENT */
+.hero-content {
+  flex: 1;
+  width: 100%;
+  max-width: 580px;
+  z-index: 2;
+
+  .hero-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--secondary-dulane);
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+
+    .highlight {
+      color: var(--primary-dulane);
+    }
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    text-align: justify;
+
+    @media (max-width: 968px) {
+      text-align: center;
+    }
+  }
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  @media (max-width: 968px) {
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    width: 100%;
+
+    app-dulane-button {
+      width: 100%;
+      display: block; // Ensures Angular expands the custom button
+    }
+  }
+}
+
+/* RIGHT-SIDE IMAGE */
+.hero-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 540px;
+
+  .hero-img {
+    width: 100%;
+    max-height: 420px;
+    height: auto;
+    object-fit: contain; // Uses contain so no part of the image gets cropped on mobile
+    border-radius: var(--radius-md);
+  }
+}
+
+/* BOTTOM CARD */
+.hero-features-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto 40px auto;
+  padding: 0;
+  z-index: 5;
+
+  @media (max-width: 968px) {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+}
+
+.hero-features-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+
+  @media (max-width: 968px) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  // Entrance: cards rise into place, one after another, the first time the
+  // grid scrolls into view (triggered from the component via IntersectionObserver).
+  app-card {
+    display: block;
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease;
+  }
+
+  &.in-view app-card {
+    opacity: 1;
+    transform: translateY(0);
+    // Continuous, gentle bob once the card has settled into place. Cards are
+    // out of phase with each other so the section doesn't move in lockstep.
+    // Sine easing (instead of the harsher default ease-in-out) keeps the
+    // loop flowing instead of pausing at each end.
+    animation: card-float 6s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+
+    @for $i from 1 through 3 {
+      &:nth-child(#{$i}) {
+        transition-delay: #{($i - 1) * 0.12}s;
+        animation-delay: #{0.6 + ($i - 1) * 0.4}s;
+      }
+    }
+
+    // Pause the ambient float on hover so it doesn't fight with the hover lift.
+    &:hover {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes card-float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-7px) rotate(0.6deg);
+    }
+  }
+
+  // Hover: a livelier lift than the default card, plus an icon flourish.
+  // Scoped to this section only via ::ng-deep, so the rest of the site keeps
+  // the standard card hover.
+  ::ng-deep .dulane-card {
+    transition:
+      transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1),
+      box-shadow 0.4s ease,
+      border-color 0.4s ease;
+
+    &:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(36, 79, 235, 0.35);
+      box-shadow:
+        0 20px 32px -14px rgba(36, 79, 235, 0.3),
+        var(--shadow-lg);
+    }
+  }
+
+  ::ng-deep .icon-wrapper {
+    transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+  }
+
+  ::ng-deep .dulane-card:hover .icon-wrapper {
+    transform: rotate(-8deg) scale(1.15);
+  }
+
+  // Icons keep wiggling on their own, independent of hover, once the card
+  // has entered view. Paused on hover so the deliberate flourish above reads
+  // clearly instead of fighting with the ambient motion.
+  &.in-view ::ng-deep .card-icon {
+    animation: icon-wiggle 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+  }
+
+  @for $i from 1 through 3 {
+    &.in-view app-card:nth-child(#{$i}) ::ng-deep .card-icon {
+      animation-delay: #{0.9 + ($i - 1) * 0.35}s;
+    }
+  }
+
+  ::ng-deep .dulane-card:hover .card-icon {
+    animation-play-state: paused;
+  }
+
+  @keyframes icon-wiggle {
+    0%,
+    100% {
+      transform: rotate(0deg) scale(1);
+    }
+    25% {
+      transform: rotate(7deg) scale(1.05);
+    }
+    50% {
+      transform: rotate(0deg) scale(1.1);
+    }
+    75% {
+      transform: rotate(-7deg) scale(1.05);
+    }
+  }
+
+}

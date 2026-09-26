@@ -1,0 +1,160 @@
+<header class="header" [class.menu-open]="isMenuOpen()">
+  <div class="header-container">
+    <!-- Logo -->
+    <a href="#" class="logo" (click)="setActiveSection('inicio', $event)">
+      <img
+        src="images/logo-dulane.png"
+        alt="Dulane Gestão e Tecnologia"
+        class="logo-img"
+      />
+    </a>
+
+    <!-- Navigation Menu Desktop -->
+    <nav class="nav-menu">
+      <a
+        href="#inicio"
+        class="nav-link"
+        [class.active]="activeSection() === 'inicio'"
+        (click)="setActiveSection('inicio', $event)"
+        >INÍCIO</a
+      >
+
+      <a
+        href="#quem-somos"
+        class="nav-link"
+        [class.active]="activeSection() === 'quem-somos'"
+        (click)="setActiveSection('quem-somos', $event)"
+        >QUEM SOMOS</a
+      >
+
+      <a
+        href="#produto"
+        class="nav-link"
+        [class.active]="activeSection() === 'produto'"
+        (click)="setActiveSection('produto', $event)"
+        >SOLUÇÕES EM DESTAQUE</a
+      >
+
+      <a
+        href="#outros-servicos"
+        class="nav-link"
+        [class.active]="activeSection() === 'outros-servicos'"
+        (click)="setActiveSection('outros-servicos', $event)"
+        >NOSSOS SERVIÇOS</a
+      >
+
+      <!-- Dropdown Item -->
+      <div class="dropdown-container" [class.open]="isDropdownOpen()">
+        <button
+          class="nav-link dropdown-toggle"
+          (click)="toggleDropdown($event)"
+        >
+          LINKS ÚTEIS
+          <i class="fa-solid fa-chevron-down arrow-icon"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a
+            href="https://www8.receita.fazenda.gov.br/SimplesNacional/Default.aspx"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="dropdown-item"
+            (click)="onExternalLinkClick()"
+            >SIMEI</a
+          >
+          <a
+            href="https://www.gov.br/pt-br/servicos/criar-sua-conta-gov.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="dropdown-item"
+            (click)="onExternalLinkClick()"
+            >GOV.BR</a
+          >
+          <a
+            href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="dropdown-item"
+            (click)="onExternalLinkClick()"
+            >RECEITA FEDERAL</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Hamburger Button -->
+    <button
+      class="hamburger-btn"
+      (click)="toggleMenu()"
+      aria-label="Menu de navegação"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Expanded Mobile Menu -->
+    <div class="mobile-menu">
+      <nav class="mobile-nav">
+        <a
+          href="#inicio"
+          class="mobile-link"
+          (click)="setActiveSection('inicio', $event)"
+          >INÍCIO</a
+        >
+        <a
+          href="#quem-somos"
+          class="mobile-link"
+          (click)="setActiveSection('quem-somos', $event)"
+          >QUEM SOMOS</a
+        >
+        <a
+          href="#produto"
+          class="mobile-link"
+          (click)="setActiveSection('produto', $event)"
+          >SOLUÇÕES EM DESTAQUE</a
+        >
+        <a
+          href="#outros-servicos"
+          class="mobile-link"
+          (click)="setActiveSection('outros-servicos', $event)"
+          >NOSSOS SERVIÇOS</a
+        >
+
+        <div class="mobile-dropdown" [class.open]="isDropdownOpen()">
+          <button
+            class="mobile-link mobile-dropdown-toggle"
+            (click)="toggleDropdown($event)"
+          >
+            LINKS ÚTEIS <i class="fa-solid fa-chevron-down arrow-icon"></i>
+          </button>
+          <div class="mobile-dropdown-menu">
+            <a
+              href="https://www8.receita.fazenda.gov.br/SimplesNacional/Default.aspx"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mobile-dropdown-item"
+              (click)="onExternalLinkClick()"
+              >SIMEI</a
+            >
+            <a
+              href="https://www.gov.br/pt-br/servicos/criar-sua-conta-gov.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mobile-dropdown-item"
+              (click)="onExternalLinkClick()"
+              >GOV.BR</a
+            >
+            <a
+              href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mobile-dropdown-item"
+              (click)="onExternalLinkClick()"
+              >RECEITA FEDERAL</a
+            >
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>

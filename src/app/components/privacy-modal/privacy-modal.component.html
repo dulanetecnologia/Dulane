@@ -1,0 +1,36 @@
+<!-- Privacy Policy modal, rendered only while open -->
+@if (isOpen()) {
+  <div class="privacy-overlay" (click)="fechar()">
+    <div class="privacy-dialog" (click)="$event.stopPropagation()">
+      <div class="privacy-scroll">
+        <!-- Title and close button -->
+        <header class="privacy-header">
+          <div class="privacy-header-text">
+            <h3 class="privacy-title">Política de privacidade</h3>
+            <p class="privacy-subtitle">Última atualização: 10 de agosto de 2026</p>
+          </div>
+          <button
+            type="button"
+            class="privacy-close"
+            (click)="fechar()"
+            aria-label="Fechar"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </header>
+
+        <!-- Shared legal content -->
+        <div class="privacy-body">
+          <app-privacy-content></app-privacy-content>
+        </div>
+
+        <!-- Link to the full standalone page -->
+        <footer class="privacy-footer">
+          <app-dulane-button variant="outline" (click)="abrirPaginaDedicada()">
+            Abrir em uma página dedicada
+          </app-dulane-button>
+        </footer>
+      </div>
+    </div>
+  </div>
+}

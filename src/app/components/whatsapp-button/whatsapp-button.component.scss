@@ -1,0 +1,123 @@
+.whatsapp-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #25d366;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  /* Absolute centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background-color 0.3s ease;
+
+  /* Continuous pulse animation with hardware optimization */
+  animation: pulse-glow 2s infinite;
+  will-change: transform, box-shadow;
+
+  &:hover {
+    transform: scale(1.08);
+    background-color: #20ba5a;
+
+    .whatsapp-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) translateX(0);
+    }
+  }
+
+  .whatsapp-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Tooltip positioned to the left of the button */
+.whatsapp-tooltip {
+  position: absolute;
+  right: 72px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+
+  background-color: var(
+    --secondary-dulane,
+    #1e293b
+  ); // Uses the Dulane theme variable with a fallback
+  color: var(--white, #ffffff);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0.25s;
+  pointer-events: none;
+
+  /* Tooltip arrow pointing at the button */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -6px;
+    transform: translateY(-50%);
+    border-width: 5px 0 5px 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent
+      var(--secondary-dulane, #1e293b);
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* Responsiveness for small screens */
+@media (max-width: 576px) {
+  .whatsapp-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 54px;
+    height: 54px;
+
+    .whatsapp-icon {
+      font-size: 1.85rem;
+    }
+  }
+
+  /* Hides the tooltip on mobile devices to avoid cluttering the screen */
+  .whatsapp-tooltip {
+    display: none;
+  }
+}

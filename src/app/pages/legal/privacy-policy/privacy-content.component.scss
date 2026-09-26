@@ -1,0 +1,7 @@
+// Reuses the shared legal content styles.
+@use '../legal-page';
+
+// Email link in dark blue instead of the default orange.
+section.legal-section a {
+  color: var(--secondary-dulane);
+}

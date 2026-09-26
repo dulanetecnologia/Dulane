@@ -1,0 +1,25 @@
+<!-- Route outlet -->
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Floating WhatsApp button -->
+<app-whatsapp-button></app-whatsapp-button>
+
+<!-- Cookie consent banner -->
+<app-cookie-consent></app-cookie-consent>
+
+<!-- Quote request modal (lazy-loaded) -->
+@defer (when orcamentoService.isOpen()) {
+  <app-orcamento-modal></app-orcamento-modal>
+}
+
+<!-- Terms of Use modal (lazy-loaded) -->
+@defer (when termsModalService.isOpen()) {
+  <app-terms-modal></app-terms-modal>
+}
+
+<!-- Privacy Policy modal (lazy-loaded) -->
+@defer (when privacyModalService.isOpen()) {
+  <app-privacy-modal></app-privacy-modal>
+}

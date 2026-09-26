@@ -1,0 +1,23 @@
+<!-- Logo and back-to-site link -->
+<header class="legal-header">
+  <div class="legal-header-container">
+    <a [routerLink]="info.homeRoute" class="legal-logo">
+      <img [src]="info.logoSrc" [alt]="info.logoAlt" class="legal-logo-img" />
+    </a>
+    <a [routerLink]="info.homeRoute" class="legal-back-link">
+      <i class="fa-solid fa-arrow-left"></i>
+      Voltar ao site
+    </a>
+  </div>
+  <div class="legal-header-accent" [style.background-color]="info.accentColor"></div>
+</header>
+
+<!-- Title and shared legal content -->
+<main class="legal-page">
+  <h1 class="legal-title">Termos de <span class="highlight">uso</span></h1>
+  <p class="legal-updated">Última atualização: 10 de agosto de 2026</p>
+
+  <app-terms-content></app-terms-content>
+</main>
+
+<app-footer [theme]="marca"></app-footer>
