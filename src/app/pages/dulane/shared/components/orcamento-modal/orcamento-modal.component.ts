@@ -354,14 +354,14 @@ export class OrcamentoModalComponent {
     return faixaHorarioDoDia(this.dataPreferida)?.min ?? '08:00';
   }
 
-  // The latest bookable time for the selected date: 18:00 Monday-Friday,
-  // 12:00 Saturday — used as the time input's `max`.
+  // The latest bookable time for the selected date: 18:00 Monday-Friday —
+  // used as the time input's `max`.
   get horarioMax(): string {
     return faixaHorarioDoDia(this.dataPreferida)?.max ?? '18:00';
   }
 
   // True when the preferred time is within attendance hours for the
-  // selected date (Monday-Friday 8h-18h, Saturday 8h-12h).
+  // selected date (Monday-Friday 8h-18h).
   get horaValida(): boolean {
     return isHorarioValido(this.horaPreferida, this.dataPreferida);
   }

@@ -144,7 +144,7 @@
                   [ngModelOptions]="{ standalone: true }" [class.invalid]="mostrarErro('data', !dataValida)" (blur)="tocar('data')" (change)="tocar('data')" />
               </div>
               @if (mostrarErro('data', !dataValida)) {
-              <span class="field-error">Escolha uma data de hoje em diante, de segunda a sábado.</span>
+              <span class="field-error">Escolha um dia útil (segunda a sexta), sem feriados.</span>
               }
             </div>
 
@@ -159,7 +159,7 @@
               @if (mostrarErro('hora', !horaValida)) {
               <span class="field-error">Escolha um horário entre {{ horarioMin }} e {{ horarioMax }}.</span>
               } @else {
-              <span class="field-hint">Seg. a sex. das 8h às 18h, sáb. das 8h às 12h.</span>
+              <span class="field-hint">Seg. a sex. das 8h às 18h.</span>
               }
             </div>
           </div>

@@ -68,23 +68,95 @@ export interface FaixaHorario {
   max: string;
 }
 
-// Weekly attendance hours: Monday-Friday 8am-6pm, Saturday 8am-noon, closed Sundays.
+// Weekly attendance hours: Monday-Friday 8am-6pm. Closed on weekends and
+// national holidays.
 const HORARIO_SEMANA: FaixaHorario = { min: '08:00', max: '18:00' };
-const HORARIO_SABADO: FaixaHorario = { min: '08:00', max: '12:00' };
 
-// The bookable time range for an ISO date (YYYY-MM-DD): narrower on
-// Saturdays, null (nothing bookable) on Sundays or an invalid date.
+// Fixed-date Brazilian national holidays (month/day, 1-indexed).
+const FERIADOS_FIXOS: Array<[number, number]> = [
+  [1, 1], // Confraternização Universal
+  [4, 21], // Tiradentes
+  [5, 1], // Dia do Trabalho
+  [9, 7], // Independência
+  [10, 12], // Nossa Senhora Aparecida
+  [11, 2], // Finados
+  [11, 15], // Proclamação da República
+  [11, 20], // Consciência Negra
+  [12, 25], // Natal
+];
+
+// Easter Sunday (Gregorian calendar) for a given year, via the standard
+// "anonymous Gregorian algorithm" — needed because Carnaval, Sexta-feira
+// Santa and Corpus Christi are all anchored to it and move every year.
+function domingoDePascoa(ano: number): Date {
+  const a = ano % 19;
+  const b = Math.floor(ano / 100);
+  const c = ano % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const mes = Math.floor((h + l - 7 * m + 114) / 31);
+  const dia = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(ano, mes - 1, dia);
+}
+
+function somarDias(data: Date, dias: number): Date {
+  const resultado = new Date(data);
+  resultado.setDate(resultado.getDate() + dias);
+  return resultado;
+}
+
+function paraIso(data: Date): string {
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const dia = String(data.getDate()).padStart(2, '0');
+  return `${data.getFullYear()}-${mes}-${dia}`;
+}
+
+// All national holidays for one calendar year, as a set of ISO dates: the
+// fixed-date ones plus the Easter-anchored ones (Carnaval is 2 days).
+function feriadosDoAno(ano: number): Set<string> {
+  const pascoa = domingoDePascoa(ano);
+  const datas = [
+    ...FERIADOS_FIXOS.map(([mes, dia]) => new Date(ano, mes - 1, dia)),
+    somarDias(pascoa, -47), // Segunda-feira de Carnaval
+    somarDias(pascoa, -46), // Terça-feira de Carnaval
+    somarDias(pascoa, -2), // Sexta-feira Santa
+    somarDias(pascoa, 60), // Corpus Christi
+  ];
+  return new Set(datas.map(paraIso));
+}
+
+// Cached per year: the date picker asks this repeatedly for dates that
+// mostly fall in the same one or two calendar years.
+const cacheFeriados = new Map<number, Set<string>>();
+
+function isFeriado(iso: string, ano: number): boolean {
+  if (!cacheFeriados.has(ano)) {
+    cacheFeriados.set(ano, feriadosDoAno(ano));
+  }
+  return cacheFeriados.get(ano)!.has(iso);
+}
+
+// The bookable time range for an ISO date (YYYY-MM-DD): null (nothing
+// bookable) on weekends, national holidays, or an invalid date.
 export function faixaHorarioDoDia(iso: string): FaixaHorario | null {
   const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
   if (!partes) return null;
 
   const [, ano, mes, dia] = partes.map(Number);
   const diaDaSemana = new Date(ano, mes - 1, dia).getDay();
-  if (diaDaSemana === 0) return null;
-  return diaDaSemana === 6 ? HORARIO_SABADO : HORARIO_SEMANA;
+  if (diaDaSemana === 0 || diaDaSemana === 6) return null;
+  if (isFeriado(iso, ano)) return null;
+  return HORARIO_SEMANA;
 }
 
-// True when the business attends on the given ISO date (i.e. not a Sunday).
+// True when the business attends on the given ISO date (weekday, not a holiday).
 export function isDiaUtil(iso: string): boolean {
   return faixaHorarioDoDia(iso) !== null;
 }
